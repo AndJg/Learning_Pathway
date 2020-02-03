@@ -1,0 +1,21 @@
+{
+    "name": "learning_pathway",
+    "version": "1.0.0",
+    "description": "",
+    "author": "",
+    "main": "index.js",
+    "license": "ISC",
+    "scripts": {
+        "start": "nodemon index.js"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged --pattern \"**/*.*(js|jsx|ts|tsx)\""
+        }
+    },
+    "dependencies": {  
+        "husky": "^3.1.0",
+        "prettier": "^1.19.1",
+        "pretty-quick": "^2.0.1"
+    }
+}
