@@ -3,16 +3,13 @@ const asyncHandler = require('./async');
 const jwt = require('jsonwebtoken');
 
 exports.checkToken = asyncHandler(async (req, res, next) => {
-
-     let token;
+    let token;
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.token) {
+        token = req.cookies.token;
     }
-    // else if(req.cookies.token){
-    //     token = req.cookies.token
-
-    // }
 
     if (!token) {
         return res.status(401).send('Not authorized to access this route.');

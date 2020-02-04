@@ -1,5 +1,7 @@
 const asyncHandler = require('../middleware/async');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 //Register
 exports.registerUser = asyncHandler(async (req, res) => {
@@ -27,7 +29,26 @@ exports.registerUser = asyncHandler(async (req, res) => {
         role,
     });
 
+    // get the user email from? params?
+
+    sendEmail(user, req.body.email);
+
     sendTokenResponse(user, 200, res);
+});
+
+exports.confirmUser = asyncHandler(async (req, res) => {
+    const token = req.params.token;
+    const decoded = jwt.verify(token, process.env.EMAIL_SECRET);
+
+    const user = await User.findById(decoded.id);
+
+    user.isVerified = true;
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
 });
 
 //login
@@ -55,61 +76,27 @@ exports.loginUser = asyncHandler(async (req, res) => {
         return res.status(401).send('Invalid credentials');
     }
 
+    if (!user.isVerified) {
+        return res.status(401).send('Account not verified!');
+    }
+
     sendTokenResponse(user, 200, res);
 });
 
-//get one user
-exports.getUser = asyncHandler(async (req, res, next) => {
-    const user = await User.findById(req.params.id);
+//Logout
+exports.logout = asyncHandler(async (req, res, next) => {
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true,
+    });
 
     res.status(200).json({
         success: true,
-        data: user,
+        data: {},
     });
-});
-
-//get all users -admin only
-
-exports.getAllUsers = asyncHandler(async (req, res, next) => {
-    const users = await User.find();
-
-    res.status(200).json({
-        success: true,
-        data: users,
-    });
-});
-
-//delete user --admin
-exports.deleteUser = asyncHandler(async (req, res, next) => {
-    try {
-        const user = await User.findByIdAndDelete(req.params.id);
-
-        res.status(200).json({
-            success: true,
-            data: user,
-        });
-    } catch {
-        res.status(404).send('Not found');
-    }
-});
-
-//update (put) user
-
-exports.updateUserInfo = asyncHandler(async (req, res, next) => {
-    try {
-        const user = await User.findByIdAndUpdate(req.params.id);
-
-        res.status(200).json({
-            success: true,
-            data: user,
-        });
-    } catch {
-        res.status(404).send('User not found');
-    }
 });
 
 //get cuerrently logged user
-
 exports.getMe = asyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user.id);
 
@@ -117,20 +104,6 @@ exports.getMe = asyncHandler(async (req, res, next) => {
         success: true,
         data: user,
     });
-});
-
-//reset password
-exports.changePassword = asyncHandler(async (res, req, next) => {
-    const user = await User.findById(req.user.id).select('+password');
-
-    if (!(await user.matchPassword(req.body.currentPassword))) {
-        return res.status(401).send('Wrong password!'); 
-    }
-
-    user.password = req.body.newPassword;
-    await user.save();
-
-    sendTokenResponse(user, 200, res);
 });
 
 // Get token from model, create and send response
@@ -151,16 +124,29 @@ const sendTokenResponse = (user, statusCode, res) => {
         });
 };
 
-//forgot password
-//find by id.
-//send reset token
-//check token
-//run updatePassword.
+const sendEmail = async (user, email) => {
+    //1.get jwt token from user model
+    const token = user.getRegisterToken();
+    const url = `http://localhost:5000/api/users/confirmation/${token}`;
 
-//update user details?
+    //2.set transporter
+    let transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: false,
+        auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD,
+        },
+    });
 
-//admin users?
+    let info = await transporter.sendMail({
+        from: process.env.FROM_EMAIL, // sender address
+        to: email, // list of receivers
+        subject: process.env.FROM_NAME, // Subject line
+        html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+    });
 
-//uploadu user photo?
-
-//tasks for today ( date to finish to model)
+    //3.send mail with defined transport object
+    console.log('Message sent: %s', info.messageId);
+};
