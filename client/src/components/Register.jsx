@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, useFormik } from 'formik';
+import axios from '../utils/axios';
 import * as Yup from 'yup';
 
 const Register = () => {
@@ -21,14 +22,29 @@ const Register = () => {
                 .email('Invalid email address')
                 .required('Required'),
         }),
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: fields => {
+            axios
+                .post('auth/register', {
+                    username: fields.username,
+                    email: fields.email,
+                    password: fields.password,
+                })
+                .then(response => {
+                    const token = response.data.token;
+                    alert(JSON.stringify(token));
+                    // fields.props.loginHandler(token);
+                    // fields.props.history.push('/');
+                })
+                .catch(error => {
+                    // document.getElementById('loginError').innerHTML = `${error.response.data}`;
+                    alert(error);
+                });
         },
     });
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="username">Email Address</label>
+            <label htmlFor="username">Username</label>
             <input
                 id="username"
                 name="username"
