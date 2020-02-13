@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PathList from '../Path/PathList';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
     render() {
+        const { paths } = this.props;
+
         return (
             <div className="dashboard container">
                 <div className="row">
-                    <PathList />
+                    <PathList paths={paths} />
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        paths: state.paths.paths,
+    };
+};
+
+export default connect(mapStateToProps)(Dashboard);

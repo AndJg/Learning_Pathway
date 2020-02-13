@@ -1,12 +1,12 @@
 import React from 'react';
 import TaskDetails from './TaskDetails';
 
-const Path = () => {
+const Path = ({ path }) => {
     return (
         <div className="path-container">
             <div className="path-section">
-                <h1>Path Name</h1>
-                <p>Path Description</p>
+                <h1>{path.name}</h1>
+                <p>{path.description}</p>
                 <div className="path-task">Task name</div>
             </div>
 
