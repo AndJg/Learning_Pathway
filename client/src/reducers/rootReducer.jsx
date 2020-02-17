@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import authReducer from './auth';
+import authReducer from './authReducer';
 import pathReducer from './pathReducer';
 import taskReducer from './taskReducer';
 

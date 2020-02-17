@@ -1,44 +1,73 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-class Register extends Component {
-    state = {
+import { register } from '../../actions/authAction';
+
+const Register = ({ register }) => {
+    const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
+    });
+
+    const { username, email, password } = formData;
+
+    const onChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    handleChange = e => {
-        this.setState({
-            [e.target.id]: e.target.value,
-        });
-    };
-
-    handleSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
-        console.log(this.state);
+
+        console.log({ username, email, password });
+        register({ username, email, password });
     };
 
-    render() {
-        return (
-            <div className="container">
-                <form onSubmit={this.handleSubmit}>
-                    <div className="input-field">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" id="username" onChange={this.handleChange} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} />
-                    </div>
-                    <button className="btn">Sign In</button>
-                </form>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="container">
+            <form onSubmit={e => onSubmit(e)}>
+                <div className="input-field">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        type="text"
+                        placeholder="username"
+                        name="username"
+                        value={username}
+                        onChange={e => onChange(e)}
+                        required
+                    />
+                </div>
+                <div className="input-field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        placeholder="email"
+                        name="email"
+                        value={email}
+                        onChange={e => onChange(e)}
+                        required
+                    />
+                </div>
+                <div className="input-field">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        placeholder="password"
+                        name="password"
+                        value={password}
+                        onChange={e => onChange(e)}
+                        required
+                    />
+                </div>
+                <input type="submit" value="Register"></input>
+            </form>
+        </div>
+    );
+};
 
-export default Register;
+Register.propTypes = {
+    register: PropTypes.func.isRequired,
+};
+
+export default connect(null, { register })(Register);
