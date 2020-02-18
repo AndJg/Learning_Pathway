@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Landing from './components/Landing';
@@ -9,10 +10,21 @@ import TaskDetails from './components/Path/TaskDetails';
 import Register from './components/auth/Register';
 import CreatePath from './components/Path/CreatePath';
 import CreateTask from './components/Path/CreateTask';
+import store from './store';
+import setAuthToken from './utils/setAuthToken';
+import { loadUser } from './actions/authAction';
 
-class Root extends React.Component {
-    render() {
-        return (
+if (localStorage.token) {
+    setAuthToken(localStorage.token);
+}
+
+const Root = () => {
+    useEffect(() => {
+        store.dispatch(loadUser());
+    }, []);
+
+    return (
+        <Provider store={store}>
             <Router>
                 <Fragment>
                     <Navbar />
@@ -27,8 +39,8 @@ class Root extends React.Component {
                     </Switch>
                 </Fragment>
             </Router>
-        );
-    }
-}
+        </Provider>
+    );
+};
 
 export default Root;
