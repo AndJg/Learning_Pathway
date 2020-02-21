@@ -7,3 +7,5 @@ export const REMOVE_ERROR = 'REMOVE_ERROR';
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
+export const PROFILE_LOAD = 'PROFILE_LOAD';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
