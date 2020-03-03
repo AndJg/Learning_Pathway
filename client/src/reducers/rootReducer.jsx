@@ -7,7 +7,7 @@ import profileReducer from './profileReducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    paths: pathReducer,
+    path: pathReducer,
     task: taskReducer,
     error: errorReducer,
     profile: profileReducer,

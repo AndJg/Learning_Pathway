@@ -4,6 +4,7 @@ class CreatePath extends Component {
     state = {
         name: '',
         description: '',
+        tasks: [],
     };
 
     handleChange = e => {

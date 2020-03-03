@@ -4,22 +4,12 @@ import PathList from '../Path/PathList';
 
 class Dashboard extends Component {
     render() {
-        const { paths } = this.props;
-
         return (
             <div className="dashboard container">
-                <div className="row">
-                    <PathList paths={paths} />
-                </div>
+                <h2>Dashboard WROKS</h2>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        paths: state.paths.paths,
-    };
-};
-
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

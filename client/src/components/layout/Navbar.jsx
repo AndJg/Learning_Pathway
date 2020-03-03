@@ -3,31 +3,34 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
+import './Navbar.scss';
 import { logout } from '../../actions/authAction';
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     const loggedInLinks = (
         <ul className="right">
-            <li>
+            <li className="right__link">
                 <NavLink to="/dashboard">dashboard</NavLink>
             </li>
-            <li>
+            <li className="right__link">
                 <NavLink to="/profile" className="user-photo">
                     US
                 </NavLink>
             </li>
-            <li>
-                <a onClick={logout}>Logout</a>
+            <li className="right__link">
+                <a href="#" onClick={logout}>
+                    Logout
+                </a>
             </li>
         </ul>
     );
 
     const LoggedOutLinks = (
         <ul className="right">
-            <li>
+            <li className="right__link">
                 <NavLink to="/login">Sign In</NavLink>
             </li>
-            <li>
+            <li className="right__link">
                 <NavLink to="/register">Sign Up</NavLink>
             </li>
         </ul>
@@ -36,13 +39,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     return (
         <nav>
             <div className="container">
-                <li>
-                    <Link to="/" className="logo-brand">
-                        Learning_Pathway
-                    </Link>
+                <li className="container__logo-brand">
+                    <Link to="/">Learning_Pathway</Link>
                 </li>
+                {!loading && <Fragment>{isAuthenticated ? loggedInLinks : LoggedOutLinks}</Fragment>}
             </div>
-            {!loading && <Fragment>{isAuthenticated ? loggedInLinks : LoggedOutLinks}</Fragment>}
         </nav>
     );
 };

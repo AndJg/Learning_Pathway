@@ -41,6 +41,12 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        paths: [
+            {
+                type: mongoose.Schema.ObjectId,
+                ref: 'Path',
+            },
+        ],
     },
     {
         versionKey: false,

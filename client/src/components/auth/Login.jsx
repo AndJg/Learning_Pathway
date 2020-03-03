@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import './Auth.scss';
 import { login } from '../../actions/authAction';
 
 const Login = ({ login, isAuthenticated }) => {
@@ -29,7 +30,7 @@ const Login = ({ login, isAuthenticated }) => {
     }
 
     return (
-        <div className="container">
+        <div className="form-container">
             <form onSubmit={e => onSubmit(e)}>
                 <div className="input-field">
                     <label htmlFor="email">Email</label>

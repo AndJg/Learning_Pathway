@@ -9,3 +9,5 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
 export const PROFILE_LOAD = 'PROFILE_LOAD';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
+export const LOAD_PATHS = 'LOAD_PATHS';
+export const PATH_ERROR = 'PATH_ERROR';
