@@ -26,9 +26,9 @@ const Register = ({ register }) => {
     };
 
     return (
-        <div className="form-container">
+        <div className="formContainer">
             <form onSubmit={e => onSubmit(e)}>
-                <div className="input-field">
+                <div className="formContainer__input">
                     <label htmlFor="username">Username</label>
                     <input
                         type="text"
@@ -39,7 +39,7 @@ const Register = ({ register }) => {
                         required
                     />
                 </div>
-                <div className="input-field">
+                <div className="formContainer__input">
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -50,7 +50,7 @@ const Register = ({ register }) => {
                         required
                     />
                 </div>
-                <div className="input-field">
+                <div className="formContainer__input">
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
@@ -61,7 +61,7 @@ const Register = ({ register }) => {
                         required
                     />
                 </div>
-                <input type="submit" value="Register"></input>
+                <input className="formContainer__input" type="submit" value="Register"></input>
             </form>
         </div>
     );

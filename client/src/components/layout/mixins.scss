@@ -1,3 +1,7 @@
 @mixin linearGradient($top, $bottom){
     background: linear-gradient(to right,  $top 0%,$bottom 100%); 
 }
+
+@mixin linearGradient2($top, $center, $bottom){
+    background: linear-gradient(to right,  $top 20%, $center 50%,$bottom 100%); 
+}
