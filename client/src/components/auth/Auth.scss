@@ -4,17 +4,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;
-    margin-top: 2em;
+    height: 100vh;
 }
-
 
 .formContainer {
     display: flex;
     justify-content: center;
     margin: 4em;
     padding: 2rem;
-    border: dashed var(--primary-color) 3px;
+    background-color: rgba(147, 190, 232, 0.3);
+    border: solid var(--primary-color) 3px;
+    border-radius: 0.4rem;
 
     &__input {
         margin: 3rem;
@@ -29,7 +29,8 @@ input[type='email'] {
     width: 20rem;
     height: 2.5rem;
     border: none;
-    border-bottom: solid 1px black;
+    border-bottom: solid 1px var(--primary-color);
+    border-radius: 0.2rem;
 }
 
 input[type='submit'] {
@@ -40,4 +41,9 @@ input[type='submit'] {
     height: 3rem;
     color: var(--font-color2);
     @include linearGradient(var(--mixing-color), var(--primary-color));
+}
+
+input[type='submit']:hover{
+    @include linearGradient(var(--primary-color), var(--mixing-color));
+    @include transition(all,2s,ease-out);
 }
