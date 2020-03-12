@@ -8,6 +8,7 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
     useEffect(() => {
         getCurrentProfile();
     }, []);
+
     console.log(profile);
     return loading && profile === null ? (
         <Spinner />

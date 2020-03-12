@@ -15,7 +15,7 @@ import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/authAction';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './components/layout/Profile';
-import PathList from './components/Path/PathList';
+import Paths from './components/Path/Paths';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -35,7 +35,7 @@ const Root = () => {
                     <Switch>
                         <Route path="/register" component={Register} />
                         <Route path="/login" component={Login} />
-                        <Route path="/path" component={PathList} />
+                        <Route path="/paths" component={Paths} />
                         <PrivateRoute exact path="/dashboard" component={Dashboard} />
                         <Route path="/profile" component={Profile} />
                         <Route path="/taskdetails/:id" component={TaskDetails} />
